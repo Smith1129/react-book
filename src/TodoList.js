@@ -23,6 +23,9 @@ class TodoList extends Component{
                    className='input'
                    value={this.state.inputValue}
                    onChange={this.handleInputChange}
+                   ref={ (input) => {
+                   this.input = input
+                   }}
             />
             <button onClick={this.handleSubmit}>提交</button>
             </div>
@@ -42,11 +45,12 @@ class TodoList extends Component{
             // dangerouslySetInnerHTML={{__html:item}} 对输入内容不转译
         })
     }
-    handleInputChange(e){
+    handleInputChange(){
         // this.setState({
         //     inputValue:e.target.value
         // })
-        const value  = e.target.value
+        // const value  = e.target.value
+        const value  = this.input.value
         this.setState(()=>({
             inputValue:value
         }))
@@ -55,7 +59,9 @@ class TodoList extends Component{
         const list = [...this.state.list,this.state.inputValue]
         this.setState((prevState)=>({
                 // prevState前一个State
-            list:list,
+            // list:list,
+            // inputValue:''
+            list:[...prevState.list,prevState.inputValue],
             inputValue:''
         }))
     // this.setState({
