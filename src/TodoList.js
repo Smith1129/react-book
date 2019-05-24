@@ -1,6 +1,7 @@
 import React,{ Component,Fragment} from 'react'
 import Todoitem from './Todoitem'
 import './style.css'
+import axios from 'axios'
 class TodoList extends Component{
     constructor(props){
         super(props)
@@ -13,6 +14,11 @@ class TodoList extends Component{
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleGetTodoList = this.handleGetTodoList.bind(this)
     }
+    // 组件即将被挂载到页面的时刻执行
+    // componentWillMount() {
+    //
+    // }
+
     //JSX语法
     render(){
         return (
@@ -35,6 +41,33 @@ class TodoList extends Component{
         </Fragment>
         )
     }
+    componentDidMount() {
+        axios.get('/api/todolist').then((res)=>{
+
+        }).catch(()=>{
+            alert('worry')
+        })
+    }
+
+    // // 组件被挂载之后执行
+    // componentDidMount() {
+    // }
+    // //当这个组件即将从页面中被剔除的时候，才会执行
+    // componentWillUnmount() {
+    // }
+
+    // //组件更新之前会自动执行
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     // return true 需要被更新
+    //     // return false 不需要被更新
+    // }
+    // // shouldComponentUpdate返回true才执行 返回false不执行
+    // componentWillUpdate(nextProps, nextState, nextContext) {
+    // }
+    // //组件更新完成之后会被执行
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    // }
+
     handleGetTodoList(){
         return this.state.list.map((item,index)=>{
             return(

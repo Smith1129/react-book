@@ -7,20 +7,33 @@ class Todoitem extends Component{
         super(props)
         this.handleClick = this.handleClick.bind(this)
     }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if(nextProps.content !== this.props.content)
+        {
+            return true
+        }else {
+            return false
+        }
+    }
+
     render(){
-    const { content,test } = this.props
+    const { content } = this.props
         return(
-        <div onClick={this.handleClick}>{test}-{content}</div>
+        <div onClick={this.handleClick}>{content}</div>
         )
     }
     handleClick(){
         const { deleteItem,index } = this.props
         deleteItem(index)
     }
+    //当1个组件从父组件接受了参数才会执行
+    //如果这个组件第一次存在于父组件中，不会执行
+    //如果这个组件之前已经存在于父组件中，才会执行
+    // componentWillReceiveProps(nextProps, nextContext) {
+    // }
 }
 // 父组件传值校验
 Todoitem.propTypes = {
-    test:PropTypes.string.isRequired,
     content:PropTypes.oneOfType([PropTypes.number,PropTypes.string]),
     deleteItem:PropTypes.func,
     index:PropTypes.number
@@ -28,7 +41,6 @@ Todoitem.propTypes = {
 
 // 设置默认值
 Todoitem.defaultProps = {
-    test:'Hello World'
 }
 
 export default Todoitem;
