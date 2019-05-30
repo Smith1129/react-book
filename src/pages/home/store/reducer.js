@@ -1,41 +1,28 @@
 import * as Constants from './constants'
 const defaultState = {
-    focused:false,
-    mouseIn:false,
-    list:[],
-    page:0,
-    pageCount:0
+    TopicList:[],
+    ArticleList:[],
+    recommendList:[],
+    scrollShow:false
 }
 export default (state = defaultState,action) => {
     switch (action.type) {
-        case Constants.SEARCH_FOCUS:
+        case Constants.GET_HOMEDATA:
             const newState1 = JSON.parse(JSON.stringify(state));
-            newState1.focused = true
+            newState1.TopicList = action.value
+            newState1.ArticleList = action.ArticleList
+            newState1.recommendList = action.recommendList
             return newState1
-        case Constants.SEARCH_BLUR:
+        case Constants.LOAD_MORE:
             const newState2 = JSON.parse(JSON.stringify(state));
-            newState2.focused = false
+            newState2.ArticleList = [...newState2.ArticleList,...action.value];
             return newState2
-        case Constants.CHANGE_LIST:
-            const newState = JSON.parse(JSON.stringify(state));
-            newState.list = action.value;
-            newState.pageCount = action.pageCount
-            return newState;
-        case Constants.MOUSEIN_TRUE:
+        case Constants.SCROLL_SHOW:
             const newState3 = JSON.parse(JSON.stringify(state));
-            newState3.mouseIn = action.value
+            newState3.scrollShow = action.value
             return newState3
-        case Constants.MOUSEIN_FALSE:
-            const newState4 = JSON.parse(JSON.stringify(state));
-            newState4.mouseIn = action.value
-            return newState4
-        case Constants.PAGE_CHANGE:
-            const newState5 = JSON.parse(JSON.stringify(state));
-            newState5.page = action.value
-            return newState5
         default:
-        return state
-
+            return state
     }
     // if(action.type === Constants.SEARCH_FOCUS)
     // {

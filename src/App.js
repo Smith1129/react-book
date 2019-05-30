@@ -3,7 +3,10 @@ import {Globalstyle} from "./style";
 import {Globalstyle1} from "./statics/iconfont/iconfont";
 import Header from './common/header/index'
 import { Provider } from 'react-redux'
+import { BrowserRouter,Route} from 'react-router-dom'
 import store from './store'
+import Home from './pages/home'
+import Detail from './pages/detail'
 class App extends Component {
     constructor(props) {
         super(props)
@@ -16,7 +19,13 @@ class App extends Component {
         <Globalstyle/>
         <Globalstyle1/>
         <Provider store={store}>
-        <Header/>
+        <BrowserRouter>
+        <div>
+            <Header/>
+            <Route path='/' exact component={Home}></Route>
+            <Route path='/detail' exact component={Detail}></Route>
+        </div>
+        </BrowserRouter>
         </Provider>
         </Fragment>
         )

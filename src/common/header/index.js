@@ -22,9 +22,9 @@ class Header extends Component{
                             timeout={200}
                             classNames={'slide'}
                         >
-                            <NavSearch onFocus={this.props.handleInputSlide} className={this.props.focused ? 'focused' : ''} onBlur={this.props.handleInputBlur}></NavSearch>
+                            <NavSearch onFocus={()=>{this.props.handleInputSlide(this.props.list)}} className={this.props.focused ? 'focused' : ''} onBlur={this.props.handleInputBlur}></NavSearch>
                         </CSSTransition>
-                        <span className="iconfont" className={this.props.focused ? 'iconfont focused' : 'iconfont'}>&#xe62d;</span>
+                        <span  className={this.props.focused ? 'iconfont focused zoom' : 'iconfont zoom'}>&#xe62d;</span>
                         {this.getListArea(this.props.focused)}
                     </SearchWrapper>
                 </Nav>
@@ -39,31 +39,31 @@ class Header extends Component{
     }
     getListArea(show)
     {
-        if(show){
+     const pageList = []
+     for(let i =(this.props.page)*10;i<(this.props.page+1)*10;i++)
+     {
+        pageList.push(this.props.list[i])
+     }
+        if(show || this.props.mouseIn){
                 return(
-                    <SearchInfo>
+                    <SearchInfo onMouseEnter={this.props.handleMouseEnter}
+                                onMouseLeave={this.props.handleMouseLeave}>
                         <SearchInfoTitle>
                             热门搜索
-                            <SearchInfoSwitch>
-                                换一批
+                            <SearchInfoSwitch onClick={()=>{
+                                this.props.pageChange(this.props.page,this.props.pageCount,this.spin)
+                            }}>
+                                <span ref={(spin)=>{
+                                    this.spin = spin
+                                }} className="iconfont spin">&#xe606;</span>换一批
                             </SearchInfoSwitch>
                         </SearchInfoTitle>
                         <SearchInfoList>
-                            {this.props.list.map((item,index)=>{
+                            {pageList.map((item,index)=>{
                                 return(
                                     <SearchInfoItem key={index}>{item}</SearchInfoItem>
                                 )
                             })}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
-                            {/*<SearchInfoItem>教育</SearchInfoItem>*/}
                         </SearchInfoList>
                     </SearchInfo>
                 )
@@ -80,18 +80,46 @@ class Header extends Component{
 const mapStateToProps = (state) =>{
     return{
         focused:state.header.focused,
-        list:state.header.list
+        list:state.header.list,
+        page:state.header.page,
+        mouseIn:state.header.mouseIn,
+        pageCount:state.header.pageCount
     }
 }
 const mapDispatchToProps = (dispatch) =>{
     return{
-        handleInputSlide(){
+        handleInputSlide(list){
             dispatch(actionCreators.slideTrue())
-            dispatch(actionCreators.getSearchList())
+            if(!list.length)
+            {
+                dispatch(actionCreators.getSearchList())
+            }
         },
         handleInputBlur(){
             dispatch(actionCreators.slideFalse())
         },
+        handleMouseEnter(){
+            dispatch(actionCreators.mouseInTrue())
+        },
+        handleMouseLeave(){
+            dispatch(actionCreators.mouseInFalse())
+        },
+        pageChange(page,pageCount,spin){
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig,'')
+            if(originAngle){
+                originAngle = parseInt(originAngle,10)
+            }else {
+                originAngle = 0
+            }
+            spin.style.transform = 'rotate(' + (originAngle+360) + 'deg)'
+            if(page<pageCount-1)
+            {
+                page++
+            }else {
+                page=0
+            }
+            dispatch(actionCreators.pageChange(page))
+        }
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Header)

@@ -9,9 +9,9 @@ export const slideFalse = () => ({
 })
 export const changeList = (data)=>({
         type:constants.CHANGE_LIST,
-        value:data
+        value:data,
+        pageCount:Math.ceil((data.length)/10)
 })
-
 export const getSearchList = ()=>{
         return (dispatch)=> {
                 axios.get('/api/headerList.json').then((res) => {
@@ -21,4 +21,23 @@ export const getSearchList = ()=>{
                 })
         }
 }
+export const mouseInTrue = ()=>{
+        return{
+                type:constants.MOUSEIN_TRUE,
+                value:true
+        }
+}
+export const mouseInFalse = ()=>{
+        return{
+                type:constants.MOUSEIN_FALSE,
+                value:false
+        }
+}
+export const pageChange = (page)=>{
+        return{
+        type:constants.PAGE_CHANGE,
+        value:page
+        }
+}
+
 
