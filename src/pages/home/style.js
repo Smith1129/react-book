@@ -72,6 +72,10 @@ export const ListItem = styled.div`
 export const ListInfo = styled.div`
     width:500px;
     float:left
+    .iconfont{
+        display:inline-block;
+        margin-right:20px;
+    }
 `;
 export const RecommendWrapper = styled.div`
     margin:30px 0;

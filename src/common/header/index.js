@@ -3,12 +3,15 @@ import {HeaderWrapper,Logo,Nav,NavItem,NavSearch,Addtion,Button,SearchWrapper,Se
 import { CSSTransition } from "react-transition-group";
 import { connect } from 'react-redux'
 import {actionCreators} from './store'
+import {Link} from 'react-router-dom'
 
 class Header extends Component{
     render() {
         return(
             <HeaderWrapper>
-                <Logo href='/'/>
+                <Link to='/'>
+                <Logo/>
+                </Link>
                 <Nav>
                     <NavItem className='left active'>首页</NavItem>
                     <NavItem className='left'>下载APP</NavItem>

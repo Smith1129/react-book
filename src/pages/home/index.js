@@ -53,7 +53,6 @@ const mapDispatchToProps = (dispatch) =>{   //将store.dispatch方法挂载到di
             dispatch(actionCreators.getHomeList())
         },
         changeScrollShow(){
-            console.log(document.documentElement.scrollTop)
             if(document.documentElement.scrollTop > 100)
             {
                 dispatch(actionCreators.changeScrollShow(true))
